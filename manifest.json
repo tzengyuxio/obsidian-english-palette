@@ -4,6 +4,6 @@
 	"version": "1.0.0",
 	"minAppVersion": "1.0.0",
 	"description": "Search commands in English within the Command Palette, regardless of your UI language.",
-	"author": "user",
+	"author": "Tzeng Yuxio",
 	"isDesktopOnly": false
 }
