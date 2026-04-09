@@ -1,19 +1,20 @@
-import { Plugin } from "obsidian";
+import { App, Plugin } from "obsidian";
 
-// Extend Obsidian's undocumented internal API typings
 interface InternalCommand {
 	id: string;
 	name: string;
 }
 
-interface CommandRegistry {
-	commands: Record<string, InternalCommand>;
+interface AppWithCommands extends App {
+	commands: {
+		commands: Record<string, InternalCommand>;
+	};
 }
 
 export default class EnglishPalettePlugin extends Plugin {
 	private originalNames = new Map<string, string>();
 
-	async onload() {
+	onload() {
 		this.app.workspace.onLayoutReady(() => {
 			this.patchCommandNames();
 		});
@@ -24,7 +25,7 @@ export default class EnglishPalettePlugin extends Plugin {
 	}
 
 	private get commandRegistry(): Record<string, InternalCommand> | null {
-		const registry = (this.app as any).commands as CommandRegistry;
+		const registry = (this.app as unknown as AppWithCommands).commands;
 		return registry?.commands ?? null;
 	}
 
@@ -58,7 +59,7 @@ export default class EnglishPalettePlugin extends Plugin {
 	}
 
 	private isAscii(str: string): boolean {
-		return !/[^\x00-\x7F]/.test(str);
+		return !/[^\x20-\x7E]/.test(str);
 	}
 
 	/** "workspace:split-vertical" → "workspace split vertical" */
