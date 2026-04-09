@@ -33,10 +33,7 @@ export default class EnglishPalettePlugin extends Plugin {
 		if (!commands) return;
 
 		for (const cmd of Object.values(commands)) {
-			// Defensive against double-load
 			if (this.originalNames.has(cmd.id)) continue;
-
-			// Skip when name is already in ASCII (e.g., English plugins like Excalidraw)
 			if (this.isAscii(cmd.name)) continue;
 
 			const englishLabel = this.formatCommandId(cmd.id);
@@ -60,13 +57,12 @@ export default class EnglishPalettePlugin extends Plugin {
 		this.originalNames.clear();
 	}
 
-	/** Returns true if the string contains only ASCII characters. */
 	private isAscii(str: string): boolean {
-		return /^[\x00-\x7F]*$/.test(str);
+		return !/[^\x00-\x7F]/.test(str);
 	}
 
 	/** "workspace:split-vertical" → "workspace split vertical" */
 	private formatCommandId(id: string): string {
-		return id.replace(/:/g, " ").replace(/[-_]/g, " ");
+		return id.replace(/[:_-]/g, " ");
 	}
 }
