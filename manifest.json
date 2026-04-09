@@ -1,0 +1,9 @@
+{
+	"id": "english-palette",
+	"name": "English Palette",
+	"version": "1.0.0",
+	"minAppVersion": "1.0.0",
+	"description": "Search commands in English within the Command Palette, regardless of your UI language.",
+	"author": "user",
+	"isDesktopOnly": false
+}
